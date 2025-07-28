@@ -1,0 +1,7 @@
+ENV
+.idea
+*__pycache__*
+proton_accounts.csv
+*.csv
+Servers
+*.log

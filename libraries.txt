@@ -1,0 +1,7 @@
+requests
+beautifulsoup4
+Faker
+fake-useragent
+patchright
+protonmail-api-client
+loguru
