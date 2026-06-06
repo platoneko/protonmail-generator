@@ -1,5 +1,7 @@
 from datetime import timedelta
 import json
+import platform
+import shutil
 import sys
 from loguru import logger
 
@@ -33,7 +35,10 @@ show_browser_window = True  # True or False
 # ------------------ Please don't change -------------------
 
 # Tor settings
-tor_path = "utils/tor/tor.exe"
+if platform.system() == "Windows":
+    tor_path = "utils/tor/tor.exe"
+else:
+    tor_path = shutil.which("tor") or "tor"
 tor_proxy_path = "socks5://127.0.0.1:9150"
 
 # Playwright waiting time
