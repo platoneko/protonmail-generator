@@ -22,7 +22,7 @@ tries_count = 10
 # Tries count proton mail registration
 tries_count_registration = 10
 # Use tor proxy
-use_tor = True
+use_tor = False
 # If you want to open this file in MS Excel leave ';'
 csv_delimiter = ';'
 

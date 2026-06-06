@@ -166,6 +166,7 @@ class ProtonmailCreationPages(BasePlaywright):
 
     def run_registration(self):
         self.go_to(settings.protonmail_registration_address)
+        input("[DEBUG] 注册页面已加载，检查是否有红色封禁横幅，截图后按回车继续...")
         button = self.page.get_by_role("button", name="create a new account")
         if button.is_visible():
             button.click()
