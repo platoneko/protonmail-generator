@@ -43,21 +43,16 @@ class ProtonmailCreationPages(BasePlaywright):
 
     def __try_register_using_temp_mail(self):
         settings.logger.info("Finding email button and field...")
-        input("[DEBUG] 验证页面已加载，请截图发给我，然后按回车继续...")
         try:
-            button = self.page.get_by_test_id("tab-header-email-button")
+            button = self.page.get_by_role("tab", name="Email")
             if button.is_visible():
                 button.click()
             else:
-                settings.logger.info("Email method is already changed!")
+                settings.logger.info("Email tab is not visible!")
                 return
-            time.sleep(settings.min_time_to_sleep)
+            human_delay()
 
-            self.page.get_by_test_id(
-                "verification"
-            ).get_by_test_id(
-                "input-input-element"
-            ).fill(
+            self.page.get_by_label("Email address").fill(
                 self.user_data.full_email_name_for_verification)
         except Exception:
             raise EmailMethodForVerificationDisabled(
@@ -166,7 +161,6 @@ class ProtonmailCreationPages(BasePlaywright):
 
     def run_registration(self):
         self.go_to(settings.protonmail_registration_address)
-        input("[DEBUG] 注册页面已加载，检查是否有红色封禁横幅，截图后按回车继续...")
         button = self.page.get_by_role("button", name="create a new account")
         if button.is_visible():
             button.click()
