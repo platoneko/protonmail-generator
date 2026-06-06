@@ -31,6 +31,7 @@ class ProtonmailCreationPages(BasePlaywright):
 
     def __try_register_using_temp_mail(self):
         settings.logger.info("Finding email button and field...")
+        input("[DEBUG] 验证页面已加载，请截图发给我，然后按回车继续...")
         try:
             button = self.page.get_by_test_id("tab-header-email-button")
             if button.is_visible():
@@ -58,6 +59,8 @@ class ProtonmailCreationPages(BasePlaywright):
     def __register_with_temporary_email(self):
         settings.logger.info("Trying to register using temporary email")
         alert = self.__try_register_using_temp_mail()
+        if alert is None:
+            return
         if 'Please wait a few minutes' in alert:
             time.sleep(settings.time_to_sleep_waiting_for_request)
             self.page.get_by_role("button", name="Get verification code").click()

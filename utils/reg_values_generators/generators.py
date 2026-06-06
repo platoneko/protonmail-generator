@@ -16,7 +16,7 @@ def only_english_letters(text):
 
 
 def generate_name_and_lastname() -> str:
-    return only_english_letters(fake.first_name()+fake.first_name()+fake.last_name()+fake.last_name())
+    return only_english_letters(fake.first_name())
 
 
 def generate_password(min_len=17, max_len=24, vals=string.ascii_letters + string.digits) -> str:
@@ -28,7 +28,7 @@ def generate_password(min_len=17, max_len=24, vals=string.ascii_letters + string
 def return_user_data() -> tuple[str, str]:
     password = generate_password()
     username = generate_name_and_lastname()
-    username = (username + generate_password(min_len=3, max_len=6).lower())
+    username = username + str(random.randint(1000, 999999))
     return username, password
 
 
