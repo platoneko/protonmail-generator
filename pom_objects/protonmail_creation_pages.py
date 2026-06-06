@@ -44,16 +44,17 @@ class ProtonmailCreationPages(BasePlaywright):
     def __try_register_using_temp_mail(self):
         settings.logger.info("Finding email button and field...")
         try:
-            button = self.page.get_by_role("tab", name="Email")
-            if button.is_visible():
-                button.click()
-            else:
-                settings.logger.info("Email tab is not visible!")
-                return
-            human_delay()
+            tab = self.page.get_by_role("tab", name="Email")
+            if tab.is_visible():
+                tab.click()
+                human_delay()
 
-            self.page.get_by_label("Email address").fill(
-                self.user_data.full_email_name_for_verification)
+            email_input = self.page.get_by_label("Email address")
+            if not email_input.is_visible():
+                settings.logger.info("Email verification is not available!")
+                return
+
+            email_input.fill(self.user_data.full_email_name_for_verification)
         except Exception:
             raise EmailMethodForVerificationDisabled(
                 'Verification by email is not available now! Please try again later or use vpn.')
