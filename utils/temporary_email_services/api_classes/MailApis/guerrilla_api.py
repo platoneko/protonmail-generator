@@ -144,7 +144,9 @@ class GuerrillaMailClient:
         kwargs['ip'] = self.client_ip
         if session_id is not None:
             kwargs['sid_token'] = session_id
-        response = requests.get(url, params=kwargs)
+        settings.logger.debug(f"GuerrillaMail API request: {url} params={kwargs}")
+        response = requests.get(url, params=kwargs, timeout=15)
+        settings.logger.debug(f"GuerrillaMail API response: {response.status_code} len={len(response.text)}")
         try:
             response.raise_for_status()
         except requests.HTTPError as e:
