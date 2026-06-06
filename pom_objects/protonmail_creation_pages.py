@@ -1,7 +1,12 @@
 import time
+import random
 from utils.exceptions import EmailMethodForVerificationDisabled, GettingVerificationCodeException, SkipAdvIncomplete
 from pom_objects.base_playwright import BasePlaywright
 import settings
+
+
+def human_delay(low=1.5, high=4.0):
+    time.sleep(random.uniform(low, high))
 
 
 class ProtonmailCreationPages(BasePlaywright):
@@ -12,22 +17,29 @@ class ProtonmailCreationPages(BasePlaywright):
     def __set_user_data(self):
         self.page.locator(
             "iframe[title=\"Email address\"]").content_frame.get_by_test_id(
-            "input-input-element").fill(
-            self.user_data.nickname)
+            "input-input-element").type(
+            self.user_data.nickname, delay=random.randint(80, 200))
 
-        self.page.get_by_role("textbox", name="Password").fill(self.user_data.password)
+        human_delay()
+        self.page.get_by_role("textbox", name="Password").type(
+            self.user_data.password, delay=random.randint(60, 150))
 
+        human_delay()
         if not self.is_mobile:
-            self.page.get_by_placeholder("Confirm password").fill(self.user_data.password)
+            self.page.get_by_placeholder("Confirm password").type(
+                self.user_data.password, delay=random.randint(60, 150))
         else:
-            self.page.get_by_role("textbox", name="Confirm password").fill(self.user_data.password)
-        time.sleep(settings.min_time_to_sleep)
+            self.page.get_by_role("textbox", name="Confirm password").type(
+                self.user_data.password, delay=random.randint(60, 150))
+        human_delay(2, 5)
 
     def __create_account_button_click(self):
+        human_delay(2, 4)
         self.page.get_by_role("button", name="Start using Proton Mail now").click()
         settings.logger.info("Filling out the fields on the registration page")
+        human_delay(1.5, 3)
         self.page.get_by_role("button", name="No, thanks").click()
-        time.sleep(settings.min_time_to_sleep)
+        human_delay(2, 5)
 
     def __try_register_using_temp_mail(self):
         settings.logger.info("Finding email button and field...")
